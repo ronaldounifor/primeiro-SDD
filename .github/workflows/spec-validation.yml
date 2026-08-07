@@ -1,19 +1,22 @@
 name: Spec Validation
 
+# Use pull_request_target so the Action has permission to comment on PRs
+# (safe because we do NOT checkout PR code before making API calls)
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize, reopened, edited]
+
+# Grant only the permissions we need
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
 
 jobs:
   spec-validation:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - name: Check for spec.md changes and comment on PR
         uses: actions/github-script@v6
         with:
