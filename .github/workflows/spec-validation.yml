@@ -18,10 +18,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const core = require('@actions/core');
             const pr = context.payload.pull_request;
             if (!pr) {
-              core.info('No pull_request payload available.');
+              console.log('No pull_request payload available.');
               return;
             }
 
@@ -46,7 +45,7 @@ jobs:
                 issue_number: prNumber,
                 body
               });
-              core.info('spec.md changed. Comment added to the PR.');
+              console.log('spec.md changed. Comment added to the PR.');
             } else {
-              core.info('spec.md not changed in this PR.');
+              console.log('spec.md not changed in this PR.');
             }

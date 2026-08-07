@@ -84,7 +84,7 @@ Um estudante precisa corrigir informações, reabrir tarefas ou remover itens qu
 ### Measurable Outcomes
 
 - **SC-001**: Estudantes conseguem criar sua primeira tarefa em menos de 2 minutos em uma sessão inicial.
-- **SC-002**: Pelo menos 90% das tarefas criadas são visualizadas corretamente na lista principal após o cadastro.
+- **SC-002**: Pelo menos 95% das tarefas criadas são visualizadas corretamente na lista principal após o cadastro.
 - **SC-003**: Pelo menos 85% das tarefas com status alterado para concluído são refletidas corretamente na visualização em até 1 segundo.
 - **SC-004**: Usuários conseguem localizar uma tarefa específica em menos de 30 segundos usando filtros ou busca.
 
