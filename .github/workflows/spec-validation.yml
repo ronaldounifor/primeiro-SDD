@@ -1,0 +1,54 @@
+name: Spec Validation
+
+# Use pull_request_target so the Action has permission to comment on PRs
+# (safe because we do NOT checkout PR code before making API calls)
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, edited]
+
+# Grant only the permissions we need
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
+
+jobs:
+  spec-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check for spec.md changes and comment on PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr) {
+              console.log('No pull_request payload available.');
+              return;
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const prNumber = pr.number;
+
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner,
+              repo,
+              pull_number: prNumber,
+              per_page: 100
+            });
+
+            const changedSpec = files.some(f => f.filename.endsWith('spec.md'));
+
+            if (changedSpec) {
+              const body = 'A especificação foi modificada. A CI detectou a alteração com sucesso.';
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body
+              });
+              console.log('spec.md changed. Comment added to the PR.');
+            } else {
+              console.log('spec.md not changed in this PR.');
+            }
